@@ -26,14 +26,12 @@ export class HomeComponent implements OnInit {
     'actions',
   ];
 
-  expiringPercentage: number = 0; // Porcentaje de instrumentos a un mes de vencer su calibración
-  isAdmin: boolean = false; // Nueva propiedad para verificar si el usuario es admin
+  expiringPercentage: number = 0;
+  isAdmin: boolean = false;
 
-  // Paginación
   currentPage: number = 0;
   pageSize: number = 5;
 
-  // Variables para el modal de imagen
   isModalVisible: boolean = false;
   selectedImageUrl: string | null = null;
 
@@ -49,7 +47,8 @@ export class HomeComponent implements OnInit {
 
   // Función para verificar el rol del usuario
   checkUserRole() {
-    if (typeof window !== 'undefined' && window.localStorage) {
+    if (typeof window !== 'undefined') {
+      // Solo ejecuta en el entorno del navegador
       const userRole = localStorage.getItem('user_type');
       this.isAdmin = userRole === 'ROLE_ADMIN';
     } else {
@@ -68,13 +67,13 @@ export class HomeComponent implements OnInit {
   }
 
   cargarInstrumentos(): void {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const businessId = localStorage.getItem('business_id'); // Obtener business_id del localStorage
+    if (typeof window !== 'undefined') {
+      // Solo ejecuta en el entorno del navegador
+      const businessId = localStorage.getItem('business_id');
 
       if (businessId) {
         this.instrumentService.getInstrumentsByBusinessId(+businessId).subscribe({
           next: async (data: Instrument[]) => {
-            // Asigna la imagen en base64 y obtiene el nombre del área
             const instrumentsWithAreaNames = await Promise.all(
               data.map(async (instrument) => {
                 const area = await this.areaService.getAreaById(instrument.areaId).toPromise();
@@ -112,7 +111,6 @@ export class HomeComponent implements OnInit {
   }
 
   setPageData() {
-    // Asignar datos paginados a paginatedInstruments
     this.paginatedInstruments = this.displayedInstruments.slice(
       this.currentPage * this.pageSize,
       (this.currentPage + 1) * this.pageSize
@@ -169,20 +167,12 @@ export class HomeComponent implements OnInit {
       if (result.isConfirmed) {
         this.instrumentService.deleteInstrument(id).subscribe({
           next: () => {
-            Swal.fire(
-              '¡Eliminado!',
-              'El instrumento ha sido eliminado.',
-              'success'
-            );
+            Swal.fire('¡Eliminado!', 'El instrumento ha sido eliminado.', 'success');
             this.cargarInstrumentos();
           },
           error: (err) => {
             console.log(err);
-            Swal.fire(
-              'Error',
-              'Hubo un problema al eliminar el instrumento',
-              'error'
-            );
+            Swal.fire('Error', 'Hubo un problema al eliminar el instrumento', 'error');
           },
         });
       }

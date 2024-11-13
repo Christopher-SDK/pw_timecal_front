@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { User } from '../models/user';
 import { Token } from '../models/token';
@@ -14,7 +14,7 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object // Inyección de PLATFORM_ID
+    @Inject(PLATFORM_ID) private platformId: Object // Injecting PLATFORM_ID to check the platform
   ) {}
 
   getUser(id: number) {
@@ -37,13 +37,13 @@ export class UserService {
       .pipe(
         tap((res) => {
           if (isPlatformBrowser(this.platformId)) {
-            // Verifica si está en el navegador
+            // Browser check
             localStorage.setItem('token', res.jwtToken);
             localStorage.setItem('user_id', res.id.toString());
 
-            // Llamada adicional para obtener los detalles completos del usuario
+            // Fetch user details and store additional user data
             this.getUser(res.id).subscribe((user) => {
-              localStorage.setItem('user_type', user.type); // Almacena el rol (type) del usuario
+              localStorage.setItem('user_type', user.type); // Store user role/type
               localStorage.setItem('business_id', user.businessId.toString());
             });
           }
@@ -53,7 +53,6 @@ export class UserService {
 
   getCurrentUserId(): number | null {
     if (isPlatformBrowser(this.platformId)) {
-      // Verifica si está en el navegador
       const userId = localStorage.getItem('user_id');
       return userId !== null ? parseInt(userId) : null;
     }
@@ -62,7 +61,6 @@ export class UserService {
 
   getCurrentToken(): string | null {
     if (isPlatformBrowser(this.platformId)) {
-      // Verifica si está en el navegador
       const token = localStorage.getItem('token');
       return token !== null ? token : null;
     }
@@ -71,7 +69,6 @@ export class UserService {
 
   logout() {
     if (isPlatformBrowser(this.platformId)) {
-      // Verifica si está en el navegador
       localStorage.clear();
     }
   }

@@ -12,12 +12,12 @@ export class AppComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // Verificar si estamos en el navegador antes de acceder a localStorage
-    if (typeof window !== 'undefined' && window.localStorage) {
+    if (typeof window !== 'undefined') {
+      // Only executes client-side
       const token = localStorage.getItem('token');
       
       if (!token) {
-        // Si no hay token, redirigir al login
+        // Redirect to login if token is not present
         this.router.navigate(['login']);
       } else {
         this.router.navigate(['home']);

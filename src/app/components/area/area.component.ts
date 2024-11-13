@@ -28,7 +28,8 @@ export class AreaComponent implements OnInit {
   }
 
   cargarAreas(): void {
-    if (typeof window !== 'undefined' && window.localStorage) {
+    if (typeof window !== 'undefined') {
+      // Solo ejecuta en el lado del cliente
       const businessId = localStorage.getItem('business_id');
       if (businessId) {
         this.areaService.getAreasByBusinessId(Number(businessId)).subscribe({
@@ -48,14 +49,14 @@ export class AreaComponent implements OnInit {
 
   // Función para verificar el rol del usuario
   checkUserRole() {
-    if (typeof window !== 'undefined' && window.localStorage) {
+    if (typeof window !== 'undefined') {
+      // Solo ejecuta en el lado del cliente
       const userRole = localStorage.getItem('user_type');
       this.isAdmin = userRole === 'ROLE_ADMIN';
     }
   }
 
   cargarBusinessNames() {
-    // Para cada área, obtenemos el nombre del negocio asociado usando el businessId
     const areasWithBusinessNames = this.dsAreas.map(async (area) => {
       const business = await this.businessService
         .getBusinessById(area.businessId)
@@ -63,7 +64,6 @@ export class AreaComponent implements OnInit {
       return { area, businessName: business ? business.name : 'N/A' };
     });
 
-    // Espera a que todos los nombres de negocios se carguen antes de asignarlos a displayedAreas
     Promise.all(areasWithBusinessNames).then((areas) => {
       this.displayedAreas = areas;
     });
@@ -86,12 +86,10 @@ export class AreaComponent implements OnInit {
   }
 
   editArea(area: Area) {
-    // Redirige a la página de edición de área
     this.router.navigate([`area/edit-area/${area.areaId}`]);
   }
 
   deleteArea(areaId: number) {
-    // Confirmación antes de eliminar el área
     Swal.fire({
       title: '¿Está seguro?',
       text: 'Esta acción no se puede deshacer',

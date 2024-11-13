@@ -26,7 +26,8 @@ export class CalibrationComponent implements OnInit {
 
   // Función para verificar el rol del usuario
   checkUserRole() {
-    if (typeof window !== 'undefined' && window.localStorage) {
+    if (typeof window !== 'undefined') {
+      // Solo ejecuta en el entorno del navegador
       const userRole = localStorage.getItem('user_type');
       this.isAdmin = userRole === 'ROLE_ADMIN';
     } else {
@@ -35,7 +36,8 @@ export class CalibrationComponent implements OnInit {
   }
 
   loadCalibrations(): void {
-    if (typeof window !== 'undefined' && window.localStorage) {
+    if (typeof window !== 'undefined') {
+      // Solo ejecuta en el entorno del navegador
       const businessId = localStorage.getItem('business_id');
       if (businessId) {
         this.calibrationService
@@ -69,9 +71,7 @@ export class CalibrationComponent implements OnInit {
 
   editCalibration(calibration: Calibration) {
     // Navegar a la página de edición de calibración
-    this.router.navigate([
-      `calibration/edit-calibration/${calibration.calibrationId}`,
-    ]);
+    this.router.navigate([`calibration/edit-calibration/${calibration.calibrationId}`]);
   }
 
   deleteCalibration(calibrationId: number) {
@@ -89,20 +89,12 @@ export class CalibrationComponent implements OnInit {
       if (result.isConfirmed) {
         this.calibrationService.deleteCalibration(calibrationId).subscribe({
           next: () => {
-            Swal.fire(
-              '¡Eliminado!',
-              'La calibración ha sido eliminada.',
-              'success'
-            );
+            Swal.fire('¡Eliminado!', 'La calibración ha sido eliminada.', 'success');
             this.loadCalibrations(); // Recargar calibraciones después de eliminar
           },
           error: (err) => {
             console.error('Error al eliminar la calibración:', err);
-            Swal.fire(
-              'Error',
-              'Hubo un problema al eliminar la calibración',
-              'error'
-            );
+            Swal.fire('Error', 'Hubo un problema al eliminar la calibración', 'error');
           },
         });
       }

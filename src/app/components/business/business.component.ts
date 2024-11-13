@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'; // Asegúrate de importar Router
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { BusinessService } from '../../services/business.service';
 import { AreaService } from '../../services/area.service';
@@ -36,7 +36,8 @@ export class BusinessComponent implements OnInit {
   }
 
   loadBusinessIdFromStorage() {
-    if (typeof window !== 'undefined' && window.localStorage) {
+    if (typeof window !== 'undefined') {
+      // Solo ejecuta en el entorno del navegador
       const businessId = localStorage.getItem('business_id');
       if (businessId) {
         this.businessIdFromStorage = +businessId;
@@ -48,7 +49,8 @@ export class BusinessComponent implements OnInit {
 
   // Función para verificar el rol del usuario
   checkUserRole() {
-    if (typeof window !== 'undefined' && window.localStorage) {
+    if (typeof window !== 'undefined') {
+      // Solo ejecuta en el entorno del navegador
       const userRole = localStorage.getItem('user_type');
       this.isAdmin = userRole === 'ROLE_ADMIN';
     } else {
