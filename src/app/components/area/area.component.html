@@ -1,0 +1,32 @@
+<div class="area-header">
+    <h2>Lista de Áreas</h2>
+      <!-- Botón para agregar un nuevo area -->
+    <button *ngIf="isAdmin" routerLink="add-area" class="btn-add-area">Agregar Nueva Área</button>
+  </div>
+  
+  <div class="search-bar">
+    <input type="text" placeholder="Buscar en todos los campos..." (input)="filterAreas($event)" />
+  </div>
+  
+  <table class="area-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre del Área</th>
+        <th>Nombre del Negocio</th>
+        <th *ngIf="isAdmin">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of displayedAreas">
+        <td>{{ item.area.areaId }}</td>
+        <td>{{ item.area.name }}</td>
+        <td>{{ item.businessName }}</td>
+        <td *ngIf="isAdmin">
+          <button (click)="editArea(item.area)" class="action-button">✏️</button>
+          <button (click)="deleteArea(item.area.areaId)" class="action-button">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  

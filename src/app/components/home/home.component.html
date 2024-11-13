@@ -1,0 +1,101 @@
+<div class="instrument-header">
+  <h2>Lista de Instrumentos</h2>
+  <div>
+    <button routerLink="report-calibrados" class="btn-reporte">
+      Ver Gráfica Instrumentos Calibrados
+    </button>
+    <button *ngIf="isAdmin" routerLink="/new-instrument" class="btn-primary">
+      Agregar Nuevo Instrumento
+    </button>
+    <div class="expiring-calibration">
+      <span>Porcentaje de instrumentos a un mes de vencer su calibración:</span>
+      <strong>{{ expiringPercentage }}%</strong>
+    </div>
+  </div>
+</div>
+
+<div class="search-bar">
+  <input
+    type="text"
+    placeholder="Buscar en todos los campos..."
+    (input)="filterInstruments($event)"
+  />
+</div>
+
+<table class="instrument-table">
+  <thead>
+    <tr>
+      <th>Área</th>
+      <th>ID</th>
+      <th>Modelo</th>
+      <th>Serie</th>
+      <th>Última Calibración</th>
+      <th>Próxima Calibración</th>
+      <th>Estado</th>
+      <th>Alerta</th>
+      <th>Imagen</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of displayedInstruments">
+      <td>{{ item.areaName }}</td>
+      <td>{{ item.instrument.instrumentId }}</td>
+      <td>{{ item.instrument.model }}</td>
+      <td>{{ item.instrument.serial }}</td>
+      <td>{{ item.instrument.lastCalibrationDate | date : "dd/MM/yyyy" }}</td>
+      <td>{{ item.instrument.nextCalibrationDate | date : "dd/MM/yyyy" }}</td>
+      <td>{{ item.instrument.status }}</td>
+      <td
+        [ngClass]="{
+          'alert-red': item.instrument.alert === 'Critical',
+          'alert-yellow': item.instrument.alert === 'Warning',
+          'alert-green': item.instrument.alert === 'Normal'
+        }"
+      >
+        {{ item.instrument.alert }}
+      </td>
+      <td>
+        <img
+          *ngIf="item.instrument.imageUrl"
+          [src]="item.instrument.imageUrl"
+          alt="Instrument Image"
+          class="instrument-image"
+          (click)="showImageModal(item.instrument.imageUrl)"
+        />
+        <span *ngIf="!item.instrument.imageUrl">No Image Available</span>
+      </td>
+      <td>
+        <a *ngIf="isAdmin"
+          routerLink="/edit-instrument/{{ item.instrument.instrumentId }}"
+          class="icon-button"
+          >✏️</a
+        >
+        <a *ngIf="isAdmin"
+          (click)="deleteInstrument(item.instrument.instrumentId)"
+          class="icon-button"
+          >🗑️</a
+        >
+        <a
+          routerLink="/instrument-detail/{{ item.instrument.instrumentId }}"
+          class="icon-button"
+          >👁️</a
+        >
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Modal para ver la imagen en tamaño grande -->
+<div class="modal" *ngIf="isModalVisible" (click)="closeImageModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <img [src]="selectedImageUrl" alt="Instrument Image Enlarged" />
+    <button class="close-button" (click)="closeImageModal()">Cerrar</button>
+  </div>
+</div>
+
+<!-- Paginación -->
+<div class="paginator">
+  <button (click)="prevPage()" [disabled]="!hasPrevPage">Anterior</button>
+  <button (click)="nextPage()" [disabled]="!hasNextPage">Siguiente</button>
+</div>

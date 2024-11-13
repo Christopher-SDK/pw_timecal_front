@@ -1,0 +1,181 @@
+<div class="form-header">
+  <h2>{{ modoInsertar ? "Agregar Calibración" : "Editar Calibración" }}</h2>
+</div>
+
+<form
+  [formGroup]="addEditForm"
+  (ngSubmit)="saveCalibration()"
+  class="calibration-form"
+>
+  <div class="form-field">
+    <label for="instrumentId">Instrumento</label>
+    <select
+      id="instrumentId"
+      formControlName="instrumentId"
+      (change)="onInstrumentSelect()"
+    >
+      <option
+        *ngFor="let instrument of instruments"
+        [value]="instrument.instrumentId"
+      >
+        {{ instrument.model }}
+      </option>
+    </select>
+    <div
+      *ngIf="
+        addEditForm.get('instrumentId')?.hasError('required') &&
+        addEditForm.get('instrumentId')?.touched
+      "
+    >
+      <span class="error-message">Este campo es obligatorio</span>
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="serie">Serie</label>
+    <input
+      type="text"
+      id="serie"
+      formControlName="serie"
+      placeholder="Seleccione un instrumento para ver la serie"
+      readonly
+    />
+  </div>
+
+  <div class="form-field">
+    <label for="magnitud">Magnitud</label>
+    <input
+      type="text"
+      id="magnitud"
+      formControlName="magnitud"
+      placeholder="Ingrese la magnitud..."
+    />
+    <div
+      *ngIf="
+        addEditForm.get('magnitud')?.hasError('required') &&
+        addEditForm.get('magnitud')?.touched
+      "
+    >
+      <span class="error-message">Este campo es obligatorio</span>
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="valores">Valores</label>
+    <input
+      type="number"
+      id="valores"
+      formControlName="valores"
+      placeholder="Ingrese el valor..."
+    />
+    <div
+      *ngIf="
+        addEditForm.get('valores')?.hasError('required') &&
+        addEditForm.get('valores')?.touched
+      "
+    >
+      <span class="error-message">Este campo es obligatorio</span>
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="errores12022">Errores 1_2022</label>
+    <input
+      type="number"
+      id="errores12022"
+      formControlName="errores12022"
+      placeholder="Ingrese el error de 2022..."
+    />
+    <div
+      *ngIf="
+        addEditForm.get('errores12022')?.hasError('required') &&
+        addEditForm.get('errores12022')?.touched
+      "
+    >
+      <span class="error-message">Este campo es obligatorio</span>
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="errores22023">Errores 2_2023</label>
+    <input
+      type="number"
+      id="errores22023"
+      formControlName="errores22023"
+      placeholder="Ingrese el error de 2023..."
+    />
+    <div
+      *ngIf="
+        addEditForm.get('errores22023')?.hasError('required') &&
+        addEditForm.get('errores22023')?.touched
+      "
+    >
+      <span class="error-message">Este campo es obligatorio</span>
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="e2MinusE1">e2 - e1</label>
+    <input
+      type="number"
+      id="e2MinusE1"
+      formControlName="e2MinusE1"
+      placeholder="Ingrese el valor de e2 - e1..."
+      [readonly]="true"
+    />
+  </div>
+
+  <div class="form-field">
+    <label for="emp">EMP</label>
+    <input
+      type="number"
+      id="emp"
+      formControlName="emp"
+      placeholder="Ingrese el valor de EMP..."
+    />
+    <div
+      *ngIf="
+        addEditForm.get('emp')?.hasError('required') &&
+        addEditForm.get('emp')?.touched
+      "
+    >
+      <span class="error-message">Este campo es obligatorio</span>
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="deriva">Deriva</label>
+    <input
+      type="number"
+      id="deriva"
+      formControlName="deriva"
+      placeholder="Ingrese la deriva..."
+      [readonly]="true"
+    />
+  </div>
+
+  <div class="form-field">
+    <label for="icLessThan">IC</label>
+    <input
+      type="number"
+      id="icLessThan"
+      formControlName="icLessThan"
+      placeholder="Ingrese la IC..."
+      [readonly]="true"
+    />
+  </div>
+
+  <div class="form-field">
+    <label for="anios">Años</label>
+    <input
+      type="number"
+      id="anios"
+      formControlName="anios"
+      placeholder="Ingrese los años..."
+      [readonly]="true"
+    />
+  </div>
+
+  <button type="submit" [disabled]="addEditForm.invalid">Guardar</button>
+  <button type="button" (click)="cancel()">Cancelar</button>
+</form>

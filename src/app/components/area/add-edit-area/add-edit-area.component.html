@@ -1,0 +1,33 @@
+<div class="form-header">
+  <h2>{{ modoInsertar ? "Agregar Área" : "Editar Área" }}</h2>
+</div>
+
+<form [formGroup]="addEditForm" (ngSubmit)="saveArea()" class="business-form">
+  <div class="form-field">
+    <label for="name">Nombre del Área</label>
+    <input
+      type="text"
+      id="name"
+      formControlName="name"
+      placeholder="Ingrese el nombre del área..."
+    />
+    <div *ngIf="addEditForm.get('name')?.hasError('required') && addEditForm.get('name')?.touched">
+      <span class="error-message">Este campo es obligatorio</span>
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="businessId">Negocio Asociado</label>
+    <select id="businessId" formControlName="businessId">
+      <option *ngFor="let business of businesses" [value]="business.businessId">
+        {{ business.name }}
+      </option>
+    </select>
+    <div *ngIf="addEditForm.get('businessId')?.hasError('required') && addEditForm.get('businessId')?.touched">
+      <span class="error-message">Este campo es obligatorio</span>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="addEditForm.invalid">Guardar</button>
+  <button type="button" (click)="cancel()">Cancelar</button>
+</form>

@@ -1,0 +1,48 @@
+<div class="calibration-header">
+    <h2>Lista de Calibraciones</h2>
+    <!-- Botón para agregar una nueva calibración -->
+    <button *ngIf="isAdmin" routerLink="add-calibration" class="btn-add-calibration">Agregar Nueva Calibración</button>
+  </div>
+  
+  <div class="search-bar">
+    <input type="text" placeholder="Buscar en todos los campos..." (input)="filterCalibrations($event)" />
+  </div>
+  
+  <table class="calibration-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Serie</th>
+        <th>Magnitud</th>
+        <th>Valores</th>
+        <th>Errores 1_2022</th>
+        <th>Errores 2_2023</th>
+        <th>e2 - e1</th>
+        <th>EMP</th>
+        <th>Deriva</th>
+        <th>IC</th>
+        <th>Años</th>        
+        <th *ngIf="isAdmin">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let calibration of displayedCalibrations">
+        <td>{{ calibration.calibrationId }}</td>
+        <td>{{ calibration.serie }}</td>
+        <td>{{ calibration.magnitud }}</td>
+        <td>{{ calibration.valores }}</td>
+        <td>{{ calibration.errores12022 }}</td>
+        <td>{{ calibration.errores22023 }}</td>
+        <td>{{ calibration.e2MinusE1 }}</td>
+        <td>{{calibration.emp}}</td>
+        <td>{{ calibration.deriva }}</td>
+        <td>{{ calibration.icLessThan }}</td>
+        <td>{{ calibration.anios }}</td>
+        <td *ngIf="isAdmin">
+          <button (click)="editCalibration(calibration)" class="action-button">✏️</button>
+          <button (click)="deleteCalibration(calibration.calibrationId)" class="action-button">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  

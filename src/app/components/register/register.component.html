@@ -1,0 +1,160 @@
+<div class="register-container">
+  <div>
+    <h2>¡Regístrese como usuario!</h2>
+  </div>
+
+  <form [formGroup]="registerForm" class="register-form">
+    <div class="form-field">
+      <label for="firstName">Nombre</label>
+      <input
+        type="text"
+        id="firstName"
+        formControlName="firstName"
+        placeholder="Ingrese su nombre..."
+      />
+      <span
+        *ngIf="
+          registerForm.get('firstName')?.hasError('required') &&
+          registerForm.get('firstName')?.touched
+        "
+        class="error-message"
+      >
+        Este campo es obligatorio
+      </span>
+    </div>
+
+    <div class="form-field">
+      <label for="lastName">Apellido</label>
+      <input
+        type="text"
+        id="lastName"
+        formControlName="lastName"
+        placeholder="Ingrese su apellido..."
+      />
+      <span
+        *ngIf="
+          registerForm.get('lastName')?.hasError('required') &&
+          registerForm.get('lastName')?.touched
+        "
+        class="error-message"
+      >
+        Este campo es obligatorio
+      </span>
+    </div>
+
+    <div class="form-field">
+      <label for="birthdate">Fecha de Nacimiento</label>
+      <input type="date" id="birthdate" formControlName="birthdate" />
+      <span
+        *ngIf="
+          registerForm.get('birthdate')?.hasError('required') &&
+          registerForm.get('birthdate')?.touched
+        "
+        class="error-message"
+      >
+        Este campo es obligatorio
+      </span>
+    </div>
+
+    <div class="form-field">
+      <label for="userName">Usuario</label>
+      <input
+        type="text"
+        id="userName"
+        formControlName="userName"
+        placeholder="Ingrese un nombre de usuario..."
+      />
+      <span
+        *ngIf="
+          registerForm.get('userName')?.hasError('required') &&
+          registerForm.get('userName')?.touched
+        "
+        class="error-message"
+      >
+        Este campo es obligatorio
+      </span>
+    </div>
+
+    <div class="form-field">
+      <label for="password">Password</label>
+      <div class="password-wrapper">
+        <input
+          type="{{ hide ? 'password' : 'text' }}"
+          id="password"
+          formControlName="password"
+          placeholder="Ingrese un password..."
+        />
+        <span (click)="hide = !hide" class="eye-button">{{
+          hide ? "👁️" : "🙈"
+        }}</span>
+      </div>
+      <span
+        *ngIf="
+          registerForm.get('password')?.hasError('required') &&
+          registerForm.get('password')?.touched
+        "
+        class="error-message"
+      >
+        Este campo es obligatorio
+      </span>
+    </div>
+
+    <div class="form-field">
+      <label for="businessId">Empresa</label>
+      <select id="businessId" formControlName="businessId">
+        <option value="" disabled selected>Seleccione la empresa</option>
+        <option *ngFor="let business of businesses" [value]="business.businessId">
+          {{ business.name }}
+        </option>
+      </select>
+      <span
+        *ngIf="
+          registerForm.get('businessId')?.hasError('required') &&
+          registerForm.get('businessId')?.touched
+        "
+        class="error-message"
+      >
+        Este campo es obligatorio
+      </span>
+    </div>    
+
+    <div class="form-field">
+      <label for="type">Tipo de Usuario</label>
+      <select id="type" formControlName="type">
+        <option value="" disabled selected>
+          Seleccione el tipo de usuario
+        </option>
+        <option value="ROLE_CLIENTE">Cliente</option>
+        <option value="ROLE_ADMIN">Administrador</option>
+      </select>
+      <span
+        *ngIf="
+          registerForm.get('type')?.hasError('required') &&
+          registerForm.get('type')?.touched
+        "
+        class="error-message"
+      >
+        Este campo es obligatorio
+      </span>
+    </div>
+
+    <div class="button-container">
+      <button
+        type="button"
+        (click)="registerUser()"
+        [disabled]="registerForm.invalid"
+        class="register-button"
+      >
+        Registrar
+      </button>
+      <button type="button" (click)="cancel()" class="cancel-button">
+        Cancelar
+      </button>
+    </div>
+
+    <div class="login-link">
+      <span>Si ya tiene usuario: </span>
+      <a routerLink="/" class="login-link-text">Ingrese aquí</a>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,42 @@
+<div class="business-header">
+  <h2>Lista de Negocios</h2>
+  <!-- Botón para agregar un nuevo negocio -->
+  <button *ngIf="isAdmin" routerLink="add-business" class="btn-add-business">Agregar Nuevo Negocio</button>
+</div>
+
+<div class="search-bar">
+  <input type="text" placeholder="Buscar en todos los campos..." (input)="filterBusinesses($event)" />
+</div>
+
+<table class="business-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre del Negocio</th>
+      <th>Áreas</th>
+      <th *ngIf="isAdmin" >Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of displayedBusinesses">
+      <td>{{ item.business.businessId }}</td>
+      <td>{{ item.business.name }}</td>
+      <td>
+        <ul>
+          <li *ngFor="let area of item.areas">{{ area.name }}</li>
+        </ul>
+      </td>
+      <td *ngIf="isAdmin">
+        <button (click)="editBusiness(item.business)" class="action-button">✏️</button>
+        <button (click)="deleteBusiness(item.business.businessId)" class="action-button">🗑️</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- Paginación -->
+<div class="paginator">
+  <button (click)="prevPage()" [disabled]="!hasPrevPage">Anterior</button>
+  <button (click)="nextPage()" [disabled]="!hasNextPage">Siguiente</button>
+</div>

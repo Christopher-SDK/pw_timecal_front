@@ -1,0 +1,22 @@
+<div class="form-header">
+    <h2>{{ modoInsertar ? "Agregar Negocio" : "Editar Negocio" }}</h2>
+  </div>
+  
+  <form [formGroup]="addEditForm" (ngSubmit)="saveBusiness()" class="business-form">
+    <div class="form-field">
+      <label for="name">Nombre del Negocio</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        placeholder="Ingrese el nombre del negocio..."
+      />
+      <div *ngIf="addEditForm.get('name')?.hasError('required') && addEditForm.get('name')?.touched">
+        <span class="error-message">Este campo es obligatorio</span>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="addEditForm.invalid">Guardar</button>
+    <button type="button" (click)="cancel()">Cancelar</button>
+  </form>
+  

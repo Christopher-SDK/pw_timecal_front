@@ -1,0 +1,144 @@
+.register-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.form-field select {
+  padding: 10px;
+  border: 1px solid #3f51b5;
+  border-radius: 4px;
+  font-size: 1em;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h2 {
+  font-size: 1.8em;
+  color: #3f51b5;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-field label {
+  font-weight: bold;
+  color: #3f51b5;
+}
+
+.form-field input {
+  padding: 10px;
+  border: 1px solid #3f51b5;
+  border-radius: 4px;
+  font-size: 1em;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form-field input:focus {
+  border-color: #303f9f;
+}
+
+.error-message {
+  color: #e57373;
+  font-size: 0.85em;
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  flex-grow: 1;
+}
+
+.eye-button {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #757575;
+  font-size: 1.2em;
+  transition: color 0.3s ease;
+}
+
+.eye-button:hover {
+  color: #3f51b5;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.register-button,
+.cancel-button {
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-button {
+  background-color: #3f51b5;
+  color: #fff;
+}
+
+.register-button:hover {
+  background-color: #303f9f;
+}
+
+.cancel-button {
+  background-color: #e57373;
+  color: #fff;
+}
+
+.cancel-button:hover {
+  background-color: #d32f2f;
+}
+
+.login-link {
+  font-size: 0.9em;
+  margin-top: 15px;
+}
+
+.login-link-text {
+  color: #3f51b5;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-link-text:hover {
+  color: #303f9f;
+}

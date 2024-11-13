@@ -1,0 +1,130 @@
+<div class="form-header">
+  <h2>{{ modoInsertar ? "Agregar Instrumento" : "Editar Instrumento" }}</h2>
+</div>
+
+<form
+  [formGroup]="addEditForm"
+  (ngSubmit)="saveInstrument()"
+  class="instrument-form"
+>
+  <!-- Campo para seleccionar el área -->
+  <div class="form-field">
+    <label for="areaId">Área</label>
+    <select id="areaId" formControlName="areaId">
+      <option *ngFor="let area of areas" [value]="area.areaId">
+        {{ area.name }}
+      </option>
+    </select>
+  </div>
+
+  <div class="form-field">
+    <label for="model">Modelo</label>
+    <input
+      type="text"
+      id="model"
+      formControlName="model"
+      placeholder="Ingrese el modelo..."
+    />
+    <div
+      *ngIf="
+        addEditForm.get('model')?.hasError('required') &&
+        addEditForm.get('model')?.touched
+      "
+    >
+      <span class="error-message">Este campo es obligatorio</span>
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="serial">Serie</label>
+    <input
+      type="text"
+      id="serial"
+      formControlName="serial"
+      placeholder="Ingrese el número de serie..."
+    />
+  </div>
+
+  <div class="form-field">
+    <label for="tolerance">Tolerancia</label>
+    <input
+      type="text"
+      id="tolerance"
+      formControlName="tolerance"
+      placeholder="Ej: 1.5%+5dig o 0,50%"
+    />
+  </div>
+
+  <div class="form-field">
+    <label for="workRange">Rango de trabajo</label>
+    <input
+      type="text"
+      id="workRange"
+      formControlName="workRange"
+      placeholder="Ej: 50A - 500A o 0-2000 psi"
+    />
+  </div>
+
+  <div class="form-field">
+    <label for="lastCalibrationCertificate">Último Certif. Calibración</label>
+    <input
+      type="text"
+      id="lastCalibrationCertificate"
+      formControlName="lastCalibrationCertificate"
+      placeholder="Ej: CLE-0023-2023"
+    />
+  </div>
+
+  <div class="form-field">
+    <label for="lastCalibrationDate">Fecha Última Calibración</label>
+    <input
+      type="date"
+      id="lastCalibrationDate"
+      formControlName="lastCalibrationDate"
+    />
+  </div>
+
+  <div class="form-field">
+    <label for="alert">Alerta</label>
+    <select id="alert" formControlName="alert">
+      <option value="Semaforo">Semáforo</option>
+      <option value="Normal">Normal</option>
+    </select>
+  </div>
+  
+  <div class="form-field">
+    <label for="status">Estado</label>
+    <select id="status" formControlName="status">
+      <option value="Calibrado">Calibrado</option>
+      <option value="Sin calibrar">Sin calibrar</option>
+    </select>
+  </div>
+  
+
+  <!-- Imagen con modal en un div aparte -->
+  <div class="form-field">
+    <label for="image">Imagen</label>
+    <input type="file" id="image" (change)="onFileSelected($event)" />
+
+    <!-- Miniatura de imagen actual -->
+    <img
+      *ngIf="imageUrl"
+      [src]="imageUrl"
+      alt="Instrument Image"
+      class="preview-image"
+      (click)="openImageModal()"
+    />
+  </div>
+
+  <!-- Modal para ver la imagen en tamaño grande -->
+  <div
+    class="image-modal"
+    [class.show]="isModalOpen"
+    (click)="closeImageModal()"
+  >
+    <img [src]="imageUrl" alt="Expanded Instrument Image" />
+  </div>
+
+  <button type="submit" [disabled]="addEditForm.invalid">Guardar</button>
+  <button type="button" (click)="cancel()">Cancelar</button>
+</form>

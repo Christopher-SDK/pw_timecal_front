@@ -1,0 +1,24 @@
+<div class="toolbar">
+  <div class="toolbar-row">
+    <img src="assets/img/logo.png" alt="Logo" class="logo-image">
+    <span class="title">TIMECAL</span>
+    <span class="espacio-extendido"></span>
+    
+    <div *ngIf="userLogged()">
+      <!-- Botón para ir a Home -->
+      <button *ngIf="!isHomeRoute" routerLink="/home" class="button accent">Home</button>
+
+      <!-- Botón para ver Business -->
+      <button *ngIf="!isBusinessRoute" routerLink="/business" class="button accent">Negocio</button>
+
+      <!-- Botón para ver Areas -->
+      <button *ngIf="!isAreaRoute" routerLink="/area" class="button accent">Área</button>
+      
+      <!-- Botón para ver Calibration -->
+      <button *ngIf="!isCalibrationRoute" routerLink="/calibration" class="button accent">Calibration</button>
+
+      <!-- Botón de Logout -->
+      <button (click)="logout()" routerLink="/" class="button warn">LogOut</button>
+    </div>
+  </div>
+</div>

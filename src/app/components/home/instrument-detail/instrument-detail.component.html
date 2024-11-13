@@ -1,0 +1,102 @@
+<div class="details-header">
+  <h2>Estudio de la Deriva</h2>
+</div>
+
+<div class="instrument-info">
+  <h3>Detalles del Instrumento</h3>
+
+  <!-- Sección para mostrar la imagen del instrumento -->
+  <div class="instrument-image-container">
+    <h3>Imagen del Instrumento</h3>
+    <!-- Miniatura de imagen actual -->
+    <img
+      *ngIf="imageUrl"
+      [src]="imageUrl"
+      alt="Instrument Image"
+      class="preview-image"
+      (click)="openImageModal()"
+    />
+    <span *ngIf="!imageUrl">Imagen no disponible</span>
+  </div>
+
+  <!-- Modal para ver la imagen en tamaño grande -->
+  <div
+    class="image-modal"
+    [class.show]="isModalOpen"
+    (click)="closeImageModal()"
+  >
+    <img *ngIf="imageUrl" [src]="imageUrl" alt="Expanded Instrument Image" />
+  </div>
+
+  <table class="info-table">
+    <tr>
+      <td>ID</td>
+      <td>{{ instrument?.instrumentId }}</td>
+    </tr>
+    <tr>
+      <td>Modelo</td>
+      <td>{{ instrument?.model }}</td>
+    </tr>
+    <tr>
+      <td>Serie</td>
+      <td>{{ instrument?.serial }}</td>
+    </tr>
+    <tr>
+      <td>Última Calibración</td>
+      <td>{{ instrument?.lastCalibrationDate | date : "dd/MM/yyyy" }}</td>
+    </tr>
+    <tr>
+      <td>Próxima Calibración</td>
+      <td>{{ instrument?.nextCalibrationDate | date : "dd/MM/yyyy" }}</td>
+    </tr>
+    <tr>
+      <td>Estado</td>
+      <td>{{ instrument?.status }}</td>
+    </tr>
+  </table>
+</div>
+
+<div class="calibration-info">
+  <h3>Historial de Calibraciones</h3>
+  <table class="calibration-table">
+    <thead>
+      <tr>
+        <th>Serie</th>
+        <th>Magnitud</th>
+        <th>Valores</th>
+        <th>Error 1 (2022)</th>
+        <th>Error 2 (2023)</th>
+        <th>EMP</th>
+        <th>e2 - e1</th>
+        <th>Deriva</th>
+        <th>IC &lt;</th>
+        <th>Años</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let calibration of calibrations">
+        <td>{{ calibration.serie }}</td>
+        <td>{{ calibration.magnitud }}</td>
+        <td>{{ calibration.valores }}</td>
+        <td>{{ calibration.errores12022 }}</td>
+        <td>{{ calibration.errores22023 }}</td>
+        <td>{{ calibration.emp }}</td>
+        <td>{{ calibration.e2MinusE1 }}</td>
+        <td>{{ calibration.deriva }}</td>
+        <td>{{ calibration.icLessThan }}</td>
+        <td>{{ calibration.anios }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="chart-container">
+  <h3>Comparación de Errores de Calibración</h3>
+  <canvas
+    baseChart
+    [data]="lineChartData"
+    [options]="lineChartOptions"
+    [type]="'line'"
+  >
+  </canvas>
+</div>

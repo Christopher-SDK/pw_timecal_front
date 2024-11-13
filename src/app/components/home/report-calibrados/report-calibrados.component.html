@@ -1,0 +1,33 @@
+<div class="report-container">
+    <h3>Reporte de Instrumentos Calibrados</h3>
+    <div class="chart-container">
+      <canvas baseChart
+              [data]="pieChartData"
+              [options]="pieChartOptions"
+              [type]="'pie'">
+      </canvas>
+    </div>
+    
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Estado</th>
+          <th>Cantidad</th>
+          <th>Porcentaje</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Calibrados</td>
+          <td>{{ calibratedCount }}</td>
+          <td>{{ (calibratedCount / (calibratedCount + notCalibratedCount) * 100) | number: '1.2-2' }}%</td>
+        </tr>
+        <tr>
+          <td>No Calibrados</td>
+          <td>{{ notCalibratedCount }}</td>
+          <td>{{ (notCalibratedCount / (calibratedCount + notCalibratedCount) * 100) | number: '1.2-2' }}%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
